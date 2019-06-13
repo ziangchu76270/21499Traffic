@@ -73,7 +73,10 @@ def cost(P):
 def differentiate(P):
     return egrad(cost)(P)
 
-print(P)
 
-print(differentiate(P))
+
+#print(P)
+
+#print(differentiate(P))
+
 
