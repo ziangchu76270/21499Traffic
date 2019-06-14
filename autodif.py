@@ -35,7 +35,7 @@ OD = np.asarray([[4, 4, 4, 3],
 
 
 # plan for step1    
-P = [ [[0 for _ in range(N)] for _ in range(N)]for _ in range(N)]
+P = [[[0 for _ in range(N)] for _ in range(N)]for _ in range(N)]
 for i in range(N):
     for j in range(N):
         for k in range(N):
@@ -54,6 +54,16 @@ def f(x): #x is number of cars per length unit per lane
     if x > 1:
         return 1/x
 
+def shortestPaths(G):
+  result = [[[] for _ in range(N)]for _ in range(N)]
+  minCost = np.asarray([[9999999 for _ in range(N)] for _ in range(N)])
+  for i in range(N):
+    for j in range (N):
+      for k in range (N):
+        if (G[i, k, 0] / G[i, k, 2] + G[k, j, 0] / G[k, j, 2]) <= minCost[i, j]:
+          result[i][j].append(k)
+          minCost[i, j] = (G[i, k, 0] / G[i, k, 2] + G[k, j, 0] / G[k, j, 2])
+  return result
 
 def cost(P):
     # N2 = 0
@@ -75,8 +85,8 @@ def differentiate(P):
 
 
 
-#print(P)
+# print(P)
 
-#print(differentiate(P))
+# print(differentiate(P))
 
 
