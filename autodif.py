@@ -3,35 +3,9 @@ import random
 import autograd as grad
 import math
 from autograd import elementwise_grad as egrad
+from stored_graph import option
 
-# number of nodes in the graph
-N = 4
-
-G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
-          [10, 4, 5],
-          [12, 2, 8],
-          [20, 5, 5]],
-
-         [[10, 2, 5],
-          [0, -1, -1],
-          [6, 2, 10],
-          [7, 5, 8.5]],
-
-         [[12, 2, 8],
-          [6, 2, 10],
-          [0, -1, -1],
-          [18, 4, 10]],
-
-         [[20, 5, 5],
-          [7, 5, 8.5],
-          [18, 4, 10],
-          [0, -1, -1]]])
-  
-# OD matrix  
-OD = np.asarray([[4, 4, 4, 3], 
-         [5, 2, 6, 6],
-         [4, 7, 5, 1],
-         [9, 8, 0, 6]])
+N, G, OD = option("defaultx")
 
 
 # plan for step1    
