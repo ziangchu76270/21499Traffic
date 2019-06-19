@@ -5,7 +5,7 @@ import math
 from autograd import elementwise_grad as egrad
 from stored_graph import option
 
-N, G, OD = option("defaultx")
+N, G, OD, PROP = option("defaultx")
 
 
 # plan for step1    

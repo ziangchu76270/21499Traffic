@@ -36,10 +36,11 @@ def optimization(P):
 	step = 0
 	step_size = 1
 	d = np.ones(N)
-	while np.max(step_size * d) > 0.000000001 and step < 500:
-		print(np.max(step_size*d))
+	while np.max(d) > 0.000000001 and step < 100:
+		print("d", np.max(d))
+		#print(np.max(step_size*d))
 		step += 1
-		print(step)
+		#print(step)
 		P_new = qp(P)
 		d = P_new - P
 		step_size = find_stepsize(P,d)
@@ -47,5 +48,5 @@ def optimization(P):
 	return P 
 
 
-print(optimization(P))
+print(np.round(optimization(P),decimals = 8))
 
