@@ -54,6 +54,8 @@ def cost(P):
             cost += G[i,j,0]/ (G[i,j,2] * f(N1[i,j]/G[i,j,1]))
             cost += G[i,j,0]/ (G[i,j,2] * f(N2[i,j]/G[i,j,1]))
 
+    epsi = 0.00001
+    cost += epsi*np.sum(np.multiply(P,P))
     return cost 
 
 def newCost():

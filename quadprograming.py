@@ -9,7 +9,7 @@ def qp(P):
 	P_new = np.zeros((N,N,N))
 	for i in range(N):
 		for j in range(N):
-			q = C[i,j]- P[i,j]
+			q = C[i,j] - P[i,j]
 			M = np.identity(N)
 			A = np.ones(N)
 			b = np.array([1])
@@ -36,7 +36,7 @@ def optimization(P):
 	step = 0
 	step_size = 1
 	d = np.ones(N)
-	while np.max(d) > 0.000000001 and step < 100:
+	while np.max(d) > 0.000001 and step < 100:
 		print("d", np.max(d))
 		#print(np.max(step_size*d))
 		step += 1
