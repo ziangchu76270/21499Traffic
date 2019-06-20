@@ -27,7 +27,9 @@ def optimization(P):
 		dif = np.sum(np.multiply(d,differentiate(P)))
 		step = 0
 		costp = cost(P)
-		while cost(P + alpha*d) >= costp + alpha*dif*tau and step < 1000:
+		while cost(P + alpha*d) >= costp + alpha*dif*tau and step < 50:
+			print("haha", step,  cost(P + alpha*d))
+			print(costp + alpha*dif*tau)
 			step += 1
 			alpha *= theta
 		return alpha
@@ -36,13 +38,13 @@ def optimization(P):
 	step = 0
 	step_size = 1
 	d = np.ones(N)
-	while np.max(d) > 0.000001 and step < 100:
+	while np.max(d) > 0.0000001 and step < 50:
 		print("d", np.max(d))
-		#print(np.max(step_size*d))
 		step += 1
 		#print(step)
 		P_new = qp(P)
 		d = P_new - P
+		#print("asdfgh\n\n\n", P_new, P)
 		step_size = find_stepsize(P,d)
 		P = P + step_size*d 
 	return P 
