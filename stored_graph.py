@@ -30,7 +30,7 @@ def option(s):
                  [5, 2, 6, 6],
                  [4, 7, 5, 1],
                  [9, 8, 0, 6]])
-        PROP = 1
+        MaxStep = 2
     else:
         N = 4
         G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
@@ -59,6 +59,6 @@ def option(s):
                [0, 0, 0, 0],
                [0, 0, 0, 0],
                [0, 0, 0, 0]])
-        PROP = 1
-    return N, G, OD, PROP
+        MaxStep = 2
+    return N, G, OD, MaxStep
 

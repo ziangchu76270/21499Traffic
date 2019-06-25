@@ -1,45 +1,56 @@
 import numpy as np
 from qpsolvers import solve_qp
-from autodif import N, P, differentiate, cost
-
+from autodif import N, P, G, MaxStep, differentiate, cost
 
 
 def qp(P):
 	C = differentiate(P)
-	P_new = np.zeros((N,N,N))
-	for i in range(N):
-		for j in range(N):
-			q = C[i,j] - P[i,j]
-			M = np.identity(N)
-			A = np.ones(N)
-			b = np.array([1])
-			G = -np.identity(N)
-			h = np.zeros(N)
-			P_new[i,j] = solve_qp(M,q,G,h,A,b)
+	P_new = np.zeros((MaxStep-1,N,N,N))
+	for k in range(len(P)):
+		for i in range(N):
+			for j in range(N):
+				connected_roads = []
+				q = []
+				for l in range(N):
+					if G[i,l,0] != -1:
+						connected_roads.append(l)
+						q.append(C[k,i,j,l] - P[k,i,j,l])
+				q = np.asarray(q)
+				n = len(connected_roads)
+				M = np.identity(n)
+				A = np.ones(n)
+				b = np.array([1])
+				I = -np.identity(n)
+				h = np.zeros(n)
+				raw_sol = solve_qp(M,q,I,h,A,b)
+				sol = []
+				for t in range(N):
+					if t in connected_roads:
+						sol.append(raw_sol[connected_roads.index(t)])
+					else:
+						sol.append(0)
+				P_new[k,i,j] = sol
 	return P_new
 
 
 def optimization(P):
 	def find_stepsize(P,d):
 		alpha = 1
-		tau = 0.5
+		tau = 0.9
 		theta = 0.5
 		dif = np.sum(np.multiply(d,differentiate(P)))
 		step = 0
 		costp = cost(P)
 		while cost(P + alpha*d) >= costp + alpha*dif*tau and step < 50:
-			print("haha", step,  cost(P + alpha*d))
-			print(costp + alpha*dif*tau)
 			step += 1
 			alpha *= theta
 		return alpha
 
-	P_new = np.zeros((N,N,N))
+	P_new = np.zeros((MaxStep - 1, N,N,N))
 	step = 0
-	step_size = 1
 	d = np.ones(N)
-	while np.max(d) > 0.0000001 and step < 50:
-		print("d", np.max(d))
+	while np.max(d) > 0.001 and step < 1000:
+		print("d", step, np.max(d))
 		step += 1
 		#print(step)
 		P_new = qp(P)
@@ -47,6 +58,7 @@ def optimization(P):
 		#print("asdfgh\n\n\n", P_new, P)
 		step_size = find_stepsize(P,d)
 		P = P + step_size*d 
+	print(np.max(d))
 	return P 
 
 

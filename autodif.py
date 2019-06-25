@@ -5,20 +5,21 @@ import math
 from autograd import elementwise_grad as egrad
 from stored_graph import option
 
-N, G, OD, PROP = option("defaultx")
-
+N, G, OD, MaxStep = option("default")
 
 # plan for step1    
-P = [[[0 for _ in range(N)] for _ in range(N)]for _ in range(N)]
+unitP = [[[0 for _ in range(N)] for _ in range(N)]for _ in range(N)]
 for i in range(N):
     for j in range(N):
         for k in range(N):
             if j == k:
-                P[i][j][k] = 1.0
+                unitP[i][j][k] = 1.0
 
-P = np.asarray(P)
-#print(P)
+P = np.zeros((MaxStep-1, N,N,N))
+for i in range(len(P)):
+    P[i] = unitP
 
+"""
 # cost function
 def f(x): #x is number of cars per length unit per lane
     if x < 0:
@@ -27,6 +28,18 @@ def f(x): #x is number of cars per length unit per lane
         return 1
     if x > 1:
         return 1/x
+"""
+
+def f(x): 
+    if x<0:
+        return -1
+    if 0<=x and x<=4.0/3:
+        return -(0.75**3)/4*x**3+1
+    if x > 4.0/3:
+        return 1.0/x
+
+
+
 
 def shortestPaths(G):
     result = [[[] for _ in range(N)]for _ in range(N)]
@@ -43,18 +56,23 @@ def shortestPaths(G):
          
     return result
 
-def cost(P):
-    # N2 = 0
-    N1 = np.tensordot(OD, P, axes = ([1], [1])).diagonal().transpose()
-    N2 = np.tensordot(OD, P, axes = ([0], [0])).diagonal()
-    #print(N1)
-    #current velocity
-    cost = 0
 
+
+def cost(P):
+    curOD = OD 
+    cost = 0
+    for i in range(MaxStep - 1):
+        Ni = np.tensordot(curOD, P[i], axes = ([1], [1])).diagonal().transpose()
+        for j in range(N):
+            for k in range(N):
+                cost += G[j,k,0]/ (G[j,k,2] * f(Ni[j,k]/G[j,k,1]))
+        curOD = np.tensordot(curOD, P[i], axes= ([0],[0])).diagonal()
+
+    
     for i in range(N):
         for j in range(N):
-            cost += G[i,j,0]/ (G[i,j,2] * f(N1[i,j]/G[i,j,1]))
-            cost += G[i,j,0]/ (G[i,j,2] * f(N2[i,j]/G[i,j,1]))
+            cost += G[i,j,0]/ (G[i,j,2] * f(curOD[i,j]/G[i,j,1]))
+
 
     return cost 
 
@@ -62,9 +80,8 @@ def differentiate(P):
     return egrad(cost)(P)
 
 
+print(P)
 
-# print(P)
-
-# print(differentiate(P))
+print(differentiate(P))
 
 
