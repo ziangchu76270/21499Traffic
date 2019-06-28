@@ -36,7 +36,7 @@ def option(s):
     elif s == "cycle":
         N = 3
         MaxStep = 7
-        G = np.asarray([[[0, -1, -1],
+        G = np.asarray([[[0.0, -1, -1],
                          [10, 2, 5],
                          [10, 2, 5]],
 
@@ -55,7 +55,7 @@ def option(s):
     elif s == "back":
         N = 4
         MaxStep = 5
-        G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
+        G = np.asarray([[[0.0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
                           [1000, 2, 5],
                           [10000000, 0.1, 0.1],
                           [1000, 2, 5]],
@@ -75,7 +75,7 @@ def option(s):
                           [10, 2, 5],
                           [0, -1, -1]]])
         
-        OD = np.asarray([[0, 0, 30, 0],
+        OD = np.asarray([[0.0, 0, 30, 0],
                          [0, 0, 0, 0],
                          [0, 0, 0, 0],
                          [0, 0, 0, 0]])
@@ -83,7 +83,7 @@ def option(s):
     elif s == "example":
         N = 4
         MaxStep = 4
-        G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
+        G = np.asarray([[[0.0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
                           [10, 2, 5],
                           [10000000, 0.1, 0.1],
                           [10, 2, 5]],
@@ -103,7 +103,7 @@ def option(s):
                           [10, 2, 5],
                           [0, -1, -1]]])
         
-        OD = np.asarray([[0, 0, 30, 0],
+        OD = np.asarray([[0.0, 0, 30, 0],
                          [0, 0, 0, 0],
                          [0, 0, 0, 0],
                          [0, 0, 0, 0]])
@@ -111,7 +111,7 @@ def option(s):
     elif s == "example2": #incomplete
         N = 4
         MaxStep = 3
-        G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
+        G = np.asarray([[[0.0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
                           [10, 2, 5],
                           [-1, -1, -1],
                           [-1, -1, -1]],
@@ -131,15 +131,15 @@ def option(s):
                           [10, 2, 5],
                           [0, -1, -1]]])
         
-        OD = np.asarray([[0, 6, 6, 6],
+        OD = np.asarray([[0.0, 6, 6, 6],
                          [0, 0, 10, 10],
                          [0, 0, 0, 18],
                          [0, 0, 0, 0]])
 
     elif s == "incomplete_5":
         N = 5
-        MaxStep = 5
-        G = np.asarray([[[0, -1, -1],
+        MaxStep = 3
+        G = np.asarray([[[0.0, -1, -1],
                          [12, 3, 30],
                          [12, 3, 30],
                          [-1, -1, -1],
@@ -169,7 +169,7 @@ def option(s):
                          [12, 3, 30],
                          [0, -1, -1]]])
 
-        OD = np.asarray([[0, 0, 0, 10, 10],
+        OD = np.asarray([[0.0, 0, 0, 10, 10],
                          [0, 0, 0, 0, 5],
                          [0, 0, 0, 0, 0],
                          [5, 0, 0, 0, 0],
@@ -211,7 +211,7 @@ def option(s):
                          [0, -1, -1]]
                        ])
 
-        OD = np.asarray([[0, 40, 42, 39, 66], 
+        OD = np.asarray([[0.0, 40, 42, 39, 66], 
                          [50, 0, 33, 60, 71],
                          [45, 72, 0, 57, 22],
                          [90, 60, 34, 0, 23],
@@ -221,7 +221,7 @@ def option(s):
         N = 17
         MaxStep = 2
         G = np.asarray([  #distance, lanes, velocity.  #1. upper west
-                        [[0, -1, -1], 
+                        [[0.0, -1, -1], 
                          [1.7, 1, 25], # upper east
                          [2.2, 4, 25], # midtown west
                          [3.0, 2, 25], # midtown east
@@ -560,7 +560,7 @@ def option(s):
                          [0, -1, -1]]
                        ])
         # OD = [[random.randint(1, 50) /  10 for _ in range(N)] for _ in range(N)]
-        OD = [[10 for _ in range(N)] for _ in range(N)]
+        OD = [[10.0 for _ in range(N)] for _ in range(N)]
         OD = np.asarray(OD)
         for i in range(N):
             OD[i, i] = 0
@@ -575,7 +575,7 @@ def option(s):
 
     else:
         N = 4
-        G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
+        G = np.asarray([[[0.0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
                 [5, 2, 3],
                 [5, 2, 3],
                 [11, 2.0, 3]],
