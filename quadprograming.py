@@ -49,7 +49,7 @@ def optimization(P):
 	P_new = np.zeros((MaxStep - 1, N,N,N))
 	step = 0
 	d = np.ones(N)
-	while np.max(d) > 0.001 and step < 1000:
+	while np.max(d) > 0.01 and step < 50:
 		print("d", step, np.max(d))
 		step += 1
 		#print(step)
@@ -57,10 +57,11 @@ def optimization(P):
 		d = P_new - P
 		#print("asdfgh\n\n\n", P_new, P)
 		step_size = find_stepsize(P,d)
+		#print(step_size)
 		P = P + step_size*d 
 	print(np.max(d))
 	return P 
 
 
-print(np.round(optimization(P),decimals = 8))
+print(np.round(optimization(P),decimals = 2))
 
