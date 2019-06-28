@@ -33,7 +33,82 @@ def option(s):
                          [9, 8, 0, 6]])
         MaxStep = 2
     
-    elif s == "example2":
+    elif s == "cycle":
+        N = 3
+        MaxStep = 7
+        G = np.asarray([[[0, -1, -1],
+                         [10, 2, 5],
+                         [10, 2, 5]],
+
+                        [[10, 2, 5],
+                         [0, -1, -1],
+                         [10, 2, 5]],
+
+                        [[10, 2, 5],
+                         [10, 2, 5],
+                         [0, -1, -1]]
+                         ])
+        OD = np.asarray([[0, 5, 5],
+                         [0, 0, 0],
+                         [0, 0, 0]])
+
+    elif s == "back":
+        N = 4
+        MaxStep = 5
+        G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
+                          [1000, 2, 5],
+                          [10000000, 0.1, 0.1],
+                          [1000, 2, 5]],
+
+                         [[1, 10, 50],
+                          [0, -1, -1],
+                          [1000, 2, 5],
+                          [1000, 2, 5]],
+
+                         [[1000000000, 0.1, 0.1],
+                          [1, 10, 50],
+                          [0, -1, -1],
+                          [1, 10, 50]],
+
+                         [[1000, 2, 5],
+                          [1000, 2, 5],
+                          [10, 2, 5],
+                          [0, -1, -1]]])
+        
+        OD = np.asarray([[0, 0, 30, 0],
+                         [0, 0, 0, 0],
+                         [0, 0, 0, 0],
+                         [0, 0, 0, 0]])
+
+    elif s == "example":
+        N = 4
+        MaxStep = 4
+        G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
+                          [10, 2, 5],
+                          [10000000, 0.1, 0.1],
+                          [10, 2, 5]],
+
+                         [[10, 2, 5],
+                          [0, -1, -1],
+                          [10, 2, 5],
+                          [10, 2, 5]],
+
+                         [[1000000000, 0.1, 0.1],
+                          [10, 2, 5],
+                          [0, -1, -1],
+                          [10, 2, 5]],
+
+                         [[10, 2, 5],
+                          [10, 2, 5],
+                          [10, 2, 5],
+                          [0, -1, -1]]])
+        
+        OD = np.asarray([[0, 0, 30, 0],
+                         [0, 0, 0, 0],
+                         [0, 0, 0, 0],
+                         [0, 0, 0, 0]])
+
+    elif s == "example2": #incomplete
         N = 4
         MaxStep = 3
         G = np.asarray([[[0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
@@ -61,7 +136,7 @@ def option(s):
                          [0, 0, 0, 18],
                          [0, 0, 0, 0]])
 
-    elif s = "incomplete_5":
+    elif s == "incomplete_5":
         N = 5
         MaxStep = 5
         G = np.asarray([[[0, -1, -1],
@@ -144,6 +219,7 @@ def option(s):
                         ])
     elif s == "manhattan":
         N = 17
+        MaxStep = 2
         G = np.asarray([  #distance, lanes, velocity.  #1. upper west
                         [[0, -1, -1], 
                          [1.7, 1, 25], # upper east
@@ -483,11 +559,11 @@ def option(s):
                          [0.7, 3, 25], #ba
                          [0, -1, -1]]
                        ])
-        OD = [[random.randint(1, 50) /  10 for _ in range(N)] for _ in range(N)]
+        # OD = [[random.randint(1, 50) /  10 for _ in range(N)] for _ in range(N)]
+        OD = [[10 for _ in range(N)] for _ in range(N)]
         OD = np.asarray(OD)
         for i in range(N):
             OD[i, i] = 0
-        MaxStep = 2
     
     elif s == "random":
         N = random.randint(0, 5) * 10 + random.randint(0, 10)
