@@ -5,7 +5,7 @@ import math
 from autograd import elementwise_grad as egrad
 from stored_graph import option
 
-N, G, OD, MaxStep = option("default")
+N, G, OD, MaxStep = option("manhattan")
 
 # plan for step1    
 unitP = [[[0 for _ in range(N)] for _ in range(N)]for _ in range(N)]
@@ -65,13 +65,13 @@ def cost(P):
         Ni = np.tensordot(curOD, P[i], axes = ([1], [1])).diagonal().transpose()
         for j in range(N):
             for k in range(N):
-                cost += G[j,k,0]/ (G[j,k,2] * f(Ni[j,k]/G[j,k,1]))
+                cost += (G[j,k,0]/ (G[j,k,2] * f(Ni[j,k]/G[j,k,1])))*Ni[j,k]
         curOD = np.tensordot(curOD, P[i], axes= ([0],[0])).diagonal()
 
     
     for i in range(N):
         for j in range(N):
-            cost += G[i,j,0]/ (G[i,j,2] * f(curOD[i,j]/G[i,j,1]))
+            cost += (G[i,j,0]/ (G[i,j,2] * f(curOD[i,j]/G[i,j,1])))*curOD[i,j]
 
 
     return cost 
