@@ -1,11 +1,11 @@
 import numpy as np
 from qpsolvers import solve_qp
-from autodif import N, G, MaxStep, differentiate, cost, shortestPaths, findP
+from autodif import N, G, MaxStep, differentiate, cost, shortestPaths, findP, naiveCost
 P = findP()
 pathLenG = shortestPaths()
-print(pathLenG)
-def qp(P):
 
+
+def qp(P):
 	C = differentiate(P)
 	P_new = np.zeros((MaxStep-1,N,N,N))
 	for k in range(len(P)):
@@ -51,7 +51,7 @@ def optimization(P):
 	P_new = np.zeros((MaxStep - 1, N,N,N))
 	step = 0
 	d = np.ones(N)
-	while np.max(d) > 0.01 and step < 250:
+	while np.max(d) > 0.01 and step < 300:
 		print("d", step, np.max(d))
 		step += 1
 		#print(step)
@@ -64,6 +64,6 @@ def optimization(P):
 	print(np.max(d))
 	return P 
 
-
-print(np.round(optimization(P),decimals = 2))
-
+optimalP = np.round(optimization(P),decimals = 2) 
+print(optimalP)
+print(cost(optimalP))

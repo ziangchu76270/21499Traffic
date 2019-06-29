@@ -28,15 +28,21 @@ def dijkstra(graph, node):
     pq.append((0, node))
     alldistance = [None] * (len(graph))
     alldistance[node] = 0
+    paths = []
+    for _ in range(len(graph)):
+        paths.append([])
     while pq != []:
         (dis, n), pq = pop_smallest(pq)
+        curPath = []
         for i in range(len(graph[n])):
             if graph[n][i] > 0 and (
                     alldistance[i] is None or alldistance[i] > alldistance[n] + graph[n][i]):
                 alldistance[i] = alldistance[n] + graph[n][i]
+                paths[i] = paths[n] + [i]
                 pq = deleteall(pq, i)
                 pq.append((alldistance[i], i))
-    return alldistance
+    return alldistance, paths
+
 
 
 

@@ -8,17 +8,6 @@ from stored_graph import option
 
 N, G, OD, MaxStep = option("incomplete_5")
 
-# plan for step1    
-unitP = [[[0 for _ in range(N)] for _ in range(N)]for _ in range(N)]
-for i in range(N):
-    for j in range(N):
-        for k in range(N):
-            if j == k:
-                unitP[i][j][k] = 1.0
-
-P = np.zeros((MaxStep-1, N,N,N))
-for i in range(len(P)):
-    P[i] = unitP
 
 """
 # cost function
@@ -99,20 +88,6 @@ def shortestPaths():
                 pathLenG[i,j] = shortestPath(i,j)
     return pathLenG
 
-def shortestRoute():
-    minTimeG = np.zeros((N,N))
-    for i in range(N):
-        for j in range(N):
-            if G[i,j,0] >= 0:
-                minTimeG[i,j] = G[i,j,0]/G[i,j,2]
-            else:
-                minTimeG[i,j] = -1
-    shortestRouteG = np.zeros((N,N))
-    for i in range(N):
-        curD = dijkstra(minTimeG, i)
-        shortestRouteG[i] = curD
-    return np.sum(np.multiply(shortestRouteG, OD))
-
 def findP():
     pathLenG = shortestPaths()
     graphCon = np.ones((N,N))
@@ -129,7 +104,20 @@ def findP():
                         P[s,i,j,k] = 1 
                         break 
     return P
-
+def naiveCost():
+    minTimeG = np.zeros((N,N))
+    for i in range(N):
+        for j in range(N):
+            if G[i,j,0] >= 0:
+                minTimeG[i,j] = G[i,j,0]/G[i,j,2]
+            else:
+                minTimeG[i,j] = -1
+    shortestRouteG = np.zeros((N,N))
+    for i in range(N):
+        curD, paths = dijkstra(minTimeG, i)
+        print(paths)
+        shortestRouteG[i] = curD
+    return np.sum(np.multiply(shortestRouteG, OD))
 #print(differentiate(P))
 #print(findP())
-#print(shortestRoute())
+print(naiveCost())
