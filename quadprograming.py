@@ -1,6 +1,6 @@
 import numpy as np
 from qpsolvers import solve_qp
-from autodif import N, G, MaxStep, differentiate, cost, shortestPaths, findP, naiveCost
+from autodif import N, G, MaxStep, differentiate, differentiate_2, cost, cost_2, shortestPaths, findP, naiveCost
 P = findP()
 pathLenG = shortestPaths()
 
@@ -67,5 +67,6 @@ def optimization(P):
 optimalP = np.round(optimization(P),decimals = 2) 
 print(optimalP)
 print(cost(optimalP))
+print(cost_2(optimalP))
 print(naiveCost())
 

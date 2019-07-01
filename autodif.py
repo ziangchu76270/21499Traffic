@@ -6,7 +6,7 @@ from autograd import elementwise_grad as egrad
 from dijkstra import dijkstra
 from stored_graph import option
 
-N, G, OD, MaxStep = option("incomplete_5")
+N, G, OD, MaxStep = option("incomplete_5_1")
 
 
 """
@@ -66,8 +66,42 @@ def cost(P):
 
     return cost 
 
+def minCost():
+    result = 0
+    for i in range(N):
+        for j in range(N):
+            cost = G[i, j, 0] / G[i, j, 2]
+            if result == 0 or (cost != 0 and cost < result):
+                result = cost
+    return result
+
+def cost_2(P):
+    curOD = OD 
+    cost = 0
+    for i in range(MaxStep - 1):
+        Ni = np.tensordot(curOD, P[i], axes = ([1], [1])).diagonal().transpose()
+        for j in range(N):
+            for k in range(N):
+                if G[j,k,0] == 0:
+                    print(minCost()/MaxStep)
+                    cost += minCost() / MaxStep
+                else:
+                    cost += (G[j,k,0]/ (G[j,k,2] * f(Ni[j,k]/G[j,k,1])))*Ni[j,k]
+        curOD = np.tensordot(curOD, P[i], axes= ([0],[0])).diagonal()
+
+    
+    for i in range(N):
+        for j in range(N):
+            cost += (G[i,j,0]/ (G[i,j,2] * f(curOD[i,j]/G[i,j,1])))*curOD[i,j]
+
+
+    return cost
+
 def differentiate(P):
     return egrad(cost)(P)
+
+def differentiate_2(P):
+    return egrad(cost_2)(P)
 
 def shortestPaths():
     def shortestPath(i,j):
