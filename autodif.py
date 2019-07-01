@@ -113,11 +113,40 @@ def naiveCost():
             else:
                 minTimeG[i,j] = -1
     shortestRouteG = np.zeros((N,N))
+    paths = []
+
     for i in range(N):
-        curD, paths = dijkstra(minTimeG, i)
-        print(paths)
+        curNm = np.zeros((N,N))
+        curD, path = dijkstra(minTimeG, i)
+        paths.append(path)
         shortestRouteG[i] = curD
-    return np.sum(np.multiply(shortestRouteG, OD))
+    notComplete = True
+    index = 0
+    allN = []
+    while notComplete:
+        notComplete = False
+        curN = np.zeros((N,N))
+        for i in range(N):
+            for j in range(N):
+                curp = paths[i][j]
+                if len(curp) > index:
+                    notComplete = True
+                    if index == 0:
+                        last = i
+                    else:
+                        last = curp[index - 1]
+                    now = curp[index]
+                    curN[last,now] += OD[i,j]
+        index += 1
+        if notComplete:
+            allN.append(curN)
+    curCost = 0
+    for matN in allN:
+        for i in range(N):
+            for j in range(N):
+                if matN[i,j]!= 0:
+                    curCost += matN[i,j] * G[i,j,0] / ((G[i,j,2] * f(matN[i,j]/G[i,j,1])))
+    return curCost
 #print(differentiate(P))
 #print(findP())
-print(naiveCost())
+

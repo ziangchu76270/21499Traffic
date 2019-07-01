@@ -138,7 +138,7 @@ def option(s):
 
     elif s == "incomplete_5":
         N = 5
-        MaxStep = 3
+        MaxStep = 4
         G = np.asarray([[[0.0, -1, -1],
                          [12, 3, 30],
                          [12, 3, 30],

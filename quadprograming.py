@@ -51,7 +51,7 @@ def optimization(P):
 	P_new = np.zeros((MaxStep - 1, N,N,N))
 	step = 0
 	d = np.ones(N)
-	while np.max(d) > 0.01 and step < 300:
+	while np.max(d) > 0.001 and step < 300:
 		print("d", step, np.max(d))
 		step += 1
 		#print(step)
@@ -67,3 +67,5 @@ def optimization(P):
 optimalP = np.round(optimization(P),decimals = 2) 
 print(optimalP)
 print(cost(optimalP))
+print(naiveCost())
+
