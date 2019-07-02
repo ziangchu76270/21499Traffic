@@ -6,9 +6,9 @@ from autograd import elementwise_grad as egrad
 from dijkstra import dijkstra
 from stored_graph import option
 
-N, G, OD, MaxStep = option("incomplete_5_1")
+N, G, OD, MaxStep = option("incomplete_5_10")
 
-
+CCost = 10
 """
 # cost function
 def f(x): #x is number of cars per length unit per lane
@@ -47,7 +47,7 @@ def shortestPaths(G):
     return result
 """
 
-
+"""
 def cost(P):
     curOD = OD 
     cost = 0
@@ -65,6 +65,7 @@ def cost(P):
 
 
     return cost 
+"""
 
 def minCost():
     result = 0
@@ -75,7 +76,7 @@ def minCost():
                 result = cost
     return result
 
-def cost_2(P):
+def cost(P):
     curOD = OD 
     cost = 0
     for i in range(MaxStep - 1):
@@ -83,8 +84,7 @@ def cost_2(P):
         for j in range(N):
             for k in range(N):
                 if G[j,k,0] == 0:
-                    print(minCost()/MaxStep)
-                    cost += minCost() / MaxStep
+                    cost += CCost
                 else:
                     cost += (G[j,k,0]/ (G[j,k,2] * f(Ni[j,k]/G[j,k,1])))*Ni[j,k]
         curOD = np.tensordot(curOD, P[i], axes= ([0],[0])).diagonal()

@@ -1,8 +1,9 @@
 import numpy as np
 from qpsolvers import solve_qp
-from autodif import N, G, MaxStep, differentiate, differentiate_2, cost, cost_2, shortestPaths, findP, naiveCost
-P = findP()
-pathLenG = shortestPaths()
+from autodif import N, G, MaxStep, differentiate, differentiate_2, cost, shortestPaths, findP, naiveCost
+
+
+
 
 
 def qp(P):
@@ -14,7 +15,7 @@ def qp(P):
 				connected_roads = []
 				q = []
 				for l in range(N):
-					if G[i,l,0] != -1 and (MaxStep - 1 - k >= pathLenG[l,j]):
+					if G[i,l,0] != -1 and (MaxStep - 1 - k >= shortestPaths()[l,j]):
 						connected_roads.append(l)
 						q.append(C[k,i,j,l] - P[k,i,j,l])
 				q = np.asarray(q)
@@ -51,7 +52,7 @@ def optimization(P):
 	P_new = np.zeros((MaxStep - 1, N,N,N))
 	step = 0
 	d = np.ones(N)
-	while np.max(d) > 0.001 and step < 300:
+	while np.max(d) > 0.001 and step < 1:
 		print("d", step, np.max(d))
 		step += 1
 		#print(step)
@@ -64,9 +65,4 @@ def optimization(P):
 	print(np.max(d))
 	return P 
 
-optimalP = np.round(optimization(P),decimals = 2) 
-print(optimalP)
-print(cost(optimalP))
-print(cost_2(optimalP))
-print(naiveCost())
 
