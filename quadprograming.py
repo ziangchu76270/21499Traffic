@@ -3,9 +3,6 @@ from qpsolvers import solve_qp
 from autodif import N, G, MaxStep, differentiate, differentiate_2, cost, shortestPaths, findP, naiveCost
 
 
-
-
-
 def qp(P):
 	C = differentiate(P)
 	P_new = np.zeros((MaxStep-1,N,N,N))
@@ -52,7 +49,7 @@ def optimization(P):
 	P_new = np.zeros((MaxStep - 1, N,N,N))
 	step = 0
 	d = np.ones(N)
-	while np.max(d) > 0.001 and step < 1:
+	while np.max(d) > 0.001 and step < 300:
 		print("d", step, np.max(d))
 		step += 1
 		#print(step)

@@ -1,6 +1,4 @@
 import numpy as np
-import random
-import autograd as grad
 import math
 from autograd import elementwise_grad as egrad
 from dijkstra import dijkstra
@@ -8,7 +6,8 @@ from stored_graph import option
 
 N, G, OD, MaxStep = option("incomplete_5_10")
 
-CCost = 10
+
+CCost = 0.1
 """
 # cost function
 def f(x): #x is number of cars per length unit per lane
@@ -100,9 +99,6 @@ def cost(P):
 def differentiate(P):
     return egrad(cost)(P)
 
-def differentiate_2(P):
-    return egrad(cost_2)(P)
-
 def shortestPaths():
     def shortestPath(i,j):
         pathLen = 1
@@ -181,6 +177,6 @@ def naiveCost():
                 if matN[i,j]!= 0:
                     curCost += matN[i,j] * G[i,j,0] / ((G[i,j,2] * f(matN[i,j]/G[i,j,1])))
     return curCost
-#print(differentiate(P))
-#print(findP())
+
+#print(minCost()/MaxStep)
 
