@@ -31,7 +31,7 @@ def option(s):
                          [5, 2, 6, 6],
                          [4, 7, 5, 1],
                          [9, 8, 0, 6]])
-        MaxStep = 2
+        MaxStep = 3
 
     elif s == "default_3":
         # number of nodes in the graph
@@ -1004,7 +1004,7 @@ def option(s):
     elif s == "new york":
         N = 5
         # Manhattan, Brooklyn, Queens, the Bronx and Staten Island
-        MaxStep = 2
+        MaxStep = 3
         G = np.asarray([
                         [[0, -1, -1],
                          [9.44, 3, 40],# FDR drive (9.44miles), Brooklyn Bridge
@@ -1037,15 +1037,11 @@ def option(s):
                          [0, -1, -1]]
                        ])
 
-        OD = np.asarray([[0.0, 40, 42, 39, 66], 
-                         [50, 0, 33, 60, 71],
-                         [45, 72, 0, 57, 22],
-                         [90, 60, 34, 0, 23],
-                         [45, 56, 65, 33, 0]
-                        ])
+        OD = np.zeros((N,N))
+        OD[0,N-1]= 10
     elif s == "manhattan":
         N = 17
-        MaxStep = 2
+        MaxStep = 4
         G = np.asarray([  #distance, lanes, velocity.  #1. upper west
                         [[0.0, -1, -1], 
                          [1.7, 1, 25], # upper east
@@ -1386,10 +1382,8 @@ def option(s):
                          [0, -1, -1]]
                        ])
         # OD = [[random.randint(1, 50) /  10 for _ in range(N)] for _ in range(N)]
-        OD = [[10.0 for _ in range(N)] for _ in range(N)]
-        OD = np.asarray(OD)
-        for i in range(N):
-            OD[i, i] = 0
+        OD = np.zeros((N,N))
+        OD[0,N-1]= 10
     
     elif s == "random":
         N = random.randint(0, 5) * 10 + random.randint(0, 10)
@@ -1404,7 +1398,7 @@ def option(s):
         G = np.asarray([[[0.0, -1, -1], #from 1 to 1, distance, number of lanes, v_m
                 [5, 2, 3],
                 [5, 2, 3],
-                [11, 2.0, 3]],
+                [5, 2.0, 3]],
 
                [[5, 2, 3],
                 [0, -1, -1],
@@ -1423,10 +1417,10 @@ def option(s):
         
         # OD matrix  
         OD = np.asarray(
-              [[0, 0, 0, 1000000000.0], 
-               [0, 0, 0, 0],
-               [0, 0, 0, 0],
+              [[0, 5, 5, 5.0], 
+               [0, 0, 5, 5],
+               [0, 0, 0, 5],
                [0, 0, 0, 0]])
-        MaxStep = 2
+        MaxStep = 3
     return N, G, OD, MaxStep
 

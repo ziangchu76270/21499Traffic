@@ -4,10 +4,18 @@ from autograd import elementwise_grad as egrad
 from dijkstra import dijkstra
 from stored_graph import option
 
-N, G, OD, MaxStep = option("incomplete_5_10")
+N, G, OD, MaxStep = option("sjahdjksah")
 
+def minCost():
+    result = 0
+    for i in range(N):
+        for j in range(N):
+            cost = G[i, j, 0] / G[i, j, 2]
+            if result == 0 or (cost != 0 and cost < result):
+                result = cost
+    return result
 
-CCost = 0.1
+CCost = minCost()
 """
 # cost function
 def f(x): #x is number of cars per length unit per lane
@@ -46,7 +54,6 @@ def shortestPaths(G):
     return result
 """
 
-"""
 def cost(P):
     curOD = OD 
     cost = 0
@@ -64,21 +71,17 @@ def cost(P):
 
 
     return cost 
-"""
 
-def minCost():
-    result = 0
-    for i in range(N):
-        for j in range(N):
-            cost = G[i, j, 0] / G[i, j, 2]
-            if result == 0 or (cost != 0 and cost < result):
-                result = cost
-    return result
 
-def cost(P):
+
+def wait_cost(P):
     curOD = OD 
     cost = 0
     for i in range(MaxStep - 1):
+        tmp = np.copy(curOD)
+        np.fill_diagonal(tmp, 0)
+        curOD = np.copy(tmp)
+        #print("cost",curOD)
         Ni = np.tensordot(curOD, P[i], axes = ([1], [1])).diagonal().transpose()
         for j in range(N):
             for k in range(N):
@@ -178,5 +181,4 @@ def naiveCost():
                     curCost += matN[i,j] * G[i,j,0] / ((G[i,j,2] * f(matN[i,j]/G[i,j,1])))
     return curCost
 
-#print(minCost()/MaxStep)
-
+#print(shortestPaths())

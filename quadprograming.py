@@ -1,6 +1,6 @@
 import numpy as np
 from qpsolvers import solve_qp
-from autodif import N, G, MaxStep, differentiate, differentiate_2, cost, shortestPaths, findP, naiveCost
+from autodif import N, G, MaxStep, differentiate, cost, shortestPaths, findP, naiveCost
 
 
 def qp(P):
@@ -22,7 +22,10 @@ def qp(P):
 				b = np.array([1])
 				I = -np.identity(n)
 				h = np.zeros(n)
-				raw_sol = solve_qp(M,q,I,h,A,b)
+				#print(len(q))
+				raw_sol = []
+				if len(q)!= 0:
+					raw_sol = solve_qp(M,q,I,h,A,b)
 				sol = []
 				for t in range(N):
 					if t in connected_roads:
@@ -34,6 +37,7 @@ def qp(P):
 
 
 def optimization(P):
+	"""
 	def find_stepsize(P,d):
 		alpha = 1
 		tau = 0.9
@@ -41,15 +45,28 @@ def optimization(P):
 		dif = np.sum(np.multiply(d,differentiate(P)))
 		step = 0
 		costp = cost(P)
-		while cost(P + alpha*d) >= costp + alpha*dif*tau and step < 15:
+		while cost(P + alpha*d) >= costp + alpha*dif*tau and step < 10:
 			step += 1
 			alpha *= theta
 		return alpha
+		"""
+	def find_stepsize(P,d):
+		alpha = 1
+		tau = 0.9
+		theta = 0.8
+		dif = np.sum(np.multiply(d,differentiate(P)))
+		step = 0
+		costp = cost(P + alpha*d)
+		while cost(P + alpha*d) <= costp and step < 50:
+			step += 1
+			costp = cost(P+alpha*d)
+			alpha *= theta
 
+		return alpha
 	P_new = np.zeros((MaxStep - 1, N,N,N))
 	step = 0
 	d = np.ones(N)
-	while np.max(d) > 0.001 and step < 300:
+	while np.max(d) > 0.001and step < 300:
 		print("d", step, np.max(d))
 		step += 1
 		#print(step)
